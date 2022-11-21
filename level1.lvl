@@ -1,8 +1,7 @@
 Player:3:10
 Sequence:j
-Distance:3200
-Pebble:1360
 Pebble:660
 Pebble:1660
-Pebble:2000
 Pebble:2200
+Pebble:2800
+Distance:3000
