@@ -19,9 +19,20 @@ class Player:
         self.health=int(health)
         self.y = 460
         self.dieing = False
+        self.jumping = False
         self.dietimer = time.time()
+        self.jumptimer = time.time()
     def move(self):
-        pass
+        if self.jumping:
+            self.y = 260
+            if time.time() - self.jumptimer >= 2:
+                self.jumping = False
+        else:
+            self.y = 460
+    def jump(self):
+        if not self.jumping:
+            self.jumping = True
+            self.jumptimer = time.time()
 
 class Pebble:
     def __init__(self, player, x):
@@ -29,6 +40,7 @@ class Pebble:
         self.x = int(x)
         self.y = 560
         self.img = stoneimg
+        self.dead = False
     def move(self):
         self.x -= self.vel
 
@@ -38,6 +50,7 @@ class Enemy:
         self.x = int(x)
         self.y = 460
         self.img = enemyimg
+        self.dead = False
     def move(self):
         self.x -= self.vel
 
@@ -56,6 +69,7 @@ lvlsprites = []
 player = Player()
 finaldistance = FinishLine(player, 0)
 seq = ["j"] #Key: j=jump, d=duck, a=attack, POSSIBLY, g=grab, u=use
+seqindex = 0
 seqdict = {"j":upimg, "d":downimg, "a":attackimg}
 #MainLoop
 while True:
@@ -89,12 +103,13 @@ while True:
         scene = 2
     if scene == 2:
         canvas.blit(playerimg, (200, player.y))
+        player.move()
         canvas.blit(finishimg, (finaldistance.x, 0))
         finaldistance.move()
         for i in range(len(seq)):
             canvas.blit(seqdict[seq[i]], (i * 100, 0))
         for sprite in lvlsprites:
-            if sprite.x + sprite.img.get_width() > 0 or sprite.x < 1360: #If image is inside of this box
+            if (sprite.x + sprite.img.get_width() > 0 or sprite.x < 1360) and not sprite.dead: #If image is inside of this box
                 canvas.blit(sprite.img, (sprite.x, sprite.y))
             sprite.move()
     #Event loop (Only three events, since their is one key)
@@ -106,6 +121,9 @@ while True:
             down = True
             if scene == 0:
                 scene = 1 # This goes to level screen
+            if scene == 2:
+                if seq[seqindex] == "j":
+                    player.jump()
         elif event.type == KEYUP and event.key == K_SPACE:
             down = False
     pygame.display.update()
