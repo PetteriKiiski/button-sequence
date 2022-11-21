@@ -11,21 +11,21 @@ enemyimg = pygame.image.load("Enemy.png")
 #Classes
 class Player:
     def __init__(self, vel=1, health=10):
-        self.vel = vel
-        self.health=health
+        self.vel = int(vel)
+        self.health=int(health)
         self.y = 460
 
 class Pebble:
     def __init__(self, player, x):
         self.vel = player.vel
-        self.x = x
-        self.y = 460
+        self.x = int(x)
+        self.y = 560
         self.img = stoneimg
 
 class Enemy:
     def __init__(self, player, vel, x): #May add Attack Speed and Attack Strength
-        self.vel = vel
-        self.x = x
+        self.vel = int(vel)
+        self.x = int(x)
         self.y = 460
         self.img = enemyimg
 #Variables
@@ -62,15 +62,15 @@ while True:
                 seq = sprite[1:]
             elif sprite[0] == "Distance":
                 #final distance
-                finaldistance = sprite[1]
+                finaldistance = int(sprite[1])
             else:
                 #Adds a sprite to sprite list
-                lvlsprites.append(player, spritedict[sprite[0]](*sprite[1:]))
+                lvlsprites.append(spritedict[sprite[0]](player, *sprite[1:]))
         scene = 2
     if scene == 2:
         canvas.blit(playerimg, (200, player.y))
         for sprite in lvlsprites:
-            if sprite.x + sprite.img.get_width() < 0 or sprite.x - sprite.img.get_width() > 1360: #If image is inside of this box
+#            if sprite.x + sprite.img.get_width() < 0 or sprite.x - sprite.img.get_width() > 1360: #If image is inside of this box
             canvas.blit(sprite.img, (sprite.x, sprite.y))
     #Event loop (Only three events, since their is one key)
     for event in pygame.event.get():
