@@ -12,27 +12,42 @@ finishimg = pygame.image.load("Finish.png")
 upimg = pygame.image.load("Up.png")
 downimg = pygame.image.load("Down.png")
 attackimg = pygame.image.load("Sword.png")
+YouLose = pygame.image.load("YouLose.png")
+YouWin = pygame.image.load("YouWin.png")
+notes = pygame.image.load("Notes.png")
 #Classes
 class Player:
     def __init__(self, vel=1, health=10):
         self.vel = int(vel)
         self.health=int(health)
         self.y = 460
+        self.timing = 3
         self.dieing = False
         self.jumping = False
+        self.ducking = False
+        self.contact = False
         self.dietimer = time.time()
         self.jumptimer = time.time()
     def move(self):
         if self.jumping:
             self.y = 260
-            if time.time() - self.jumptimer >= 2:
+            if time.time() - self.jumptimer >= self.timing:
                 self.jumping = False
+        elif self.ducking:
+            self.y = 560
+            if time.time() - self.ducktimer >= self.timing:
+                self.ducking = False
         else:
             self.y = 460
     def jump(self):
-        if not self.jumping:
-            self.jumping = True
-            self.jumptimer = time.time()
+        self.jumping = True
+        self.ducking = False
+        self.jumptimer = time.time()
+
+    def duck(self):
+        self.ducking = True
+        self.jumping = False
+        self.ducktimer = time.time()
 
 class Pebble:
     def __init__(self, player, x):
@@ -41,8 +56,14 @@ class Pebble:
         self.y = 560
         self.img = stoneimg
         self.dead = False
+        self.damage = 1
     def move(self):
         self.x -= self.vel
+    def attack(self):
+        if self.damage == 1:
+            self.damage = 0
+            return 1
+        return 0
 
 class Enemy:
     def __init__(self, player, vel, x): #May add Attack Speed and Attack Strength
@@ -51,8 +72,12 @@ class Enemy:
         self.y = 460
         self.img = enemyimg
         self.dead = False
+        self.damage = 1
     def move(self):
         self.x -= self.vel
+    def attack(self):
+        if not self.dead:
+            return self.damage
 
 class FinishLine:
     def __init__(self, player, x):
@@ -71,12 +96,26 @@ finaldistance = FinishLine(player, 0)
 seq = ["j"] #Key: j=jump, d=duck, a=attack, POSSIBLY, g=grab, u=use
 seqindex = 0
 seqdict = {"j":upimg, "d":downimg, "a":attackimg}
+font = pygame.font.Font("freesansbold.ttf", 100)
+clock = pygame.time.Clock()
+timer = time.time()
 #MainLoop
 while True:
+    timer = time.time()
     canvas.fill((255, 255, 255))
     if scene == 0: #Mainscreen
         canvas.blit(main, (0, 0))
+    if scene == 0.5:
+        canvas.blit(notes, (0, 0))
     if scene == 1:
+        level = 1
+        lvlsprites = []
+        player = Player()
+        finaldistance = FinishLine(player, 0)
+        seq = ["j"] #Key: j=jump, d=duck, a=attack, POSSIBLY, g=grab, u=use
+        seqindex = 0
+        seqdict = {"j":upimg, "d":downimg, "a":attackimg}
+        font = pygame.font.Font("freesansbold.ttf", 100)
         try:
             with open("level" + str(level) + ".lvl", "r") as info:
                 txt = info.read()
@@ -108,10 +147,22 @@ while True:
         finaldistance.move()
         for i in range(len(seq)):
             canvas.blit(seqdict[seq[i]], (i * 100, 0))
+        text = font.render("Health: " + str(player.health), True, (0, 0, 0), (255, 255, 255, 255))
+        canvas.blit(text, (0, 100))
         for sprite in lvlsprites:
             if (sprite.x + sprite.img.get_width() > 0 or sprite.x < 1360) and not sprite.dead: #If image is inside of this box
                 canvas.blit(sprite.img, (sprite.x, sprite.y))
             sprite.move()
+            if pygame.Rect(200, player.y, playerimg.get_width(), playerimg.get_height()).colliderect(pygame.Rect(sprite.x, sprite.y, sprite.img.get_width(), sprite.img.get_height())): #If player collides with the sprite
+                player.health -= sprite.attack()
+        if player.health <= 0:
+            scene = 3
+        if 200 >= finaldistance.x:
+            scene = 4
+    if scene == 3:
+        canvas.blit(YouLose, (0, 0))
+    if scene == 4:
+        canvas.blit(YouWin, (0, 0))
     #Event loop (Only three events, since their is one key)
     for event in pygame.event.get():
         if event.type == QUIT:
@@ -120,10 +171,22 @@ while True:
         if event.type == KEYDOWN and event.key == K_SPACE and not down:
             down = True
             if scene == 0:
-                scene = 1 # This goes to level screen
-            if scene == 2:
+                scene = 0.5
+            elif scene == 0.5:
+                scene = 1
+            elif scene == 2:
                 if seq[seqindex] == "j":
                     player.jump()
+                if seq[seqindex] == "d":
+                    player.duck()
+                seqindex += 1
+                if seqindex >= len(seq):
+                    seqindex = 0
+            elif scene == 3:
+                scene = 1
+            elif scene == 4:
+                scene = 1
         elif event.type == KEYUP and event.key == K_SPACE:
             down = False
+    clock.tick(60)
     pygame.display.update()
