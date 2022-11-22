@@ -48,6 +48,10 @@ class Player:
         self.ducking = True
         self.jumping = False
         self.ducktimer = time.time()
+    def attack(self):
+        for sprite in lvlsprites:
+            if sprite.attackable and((600 > sprite.x and 600 < sprite.x + sprite.img.get_width()) or (500 > sprite.x and 500 < sprite.img.get_width())): #Ensuring enemy should get attacked
+                sprite.under_attack(1)
 
 class Pebble:
     def __init__(self, player, x):
@@ -57,6 +61,8 @@ class Pebble:
         self.img = stoneimg
         self.dead = False
         self.damage = 1
+        self.needs_hit = True
+        self.attackable = False
     def move(self):
         self.x -= self.vel
     def attack(self):
@@ -73,11 +79,19 @@ class Enemy:
         self.img = enemyimg
         self.dead = False
         self.damage = 1
+        self.attackTimer = time.time()
+        self.needs_hit = False
+        self.attackable = True
     def move(self):
         self.x -= self.vel
     def attack(self):
-        if not self.dead:
+        self.vel = 0
+        if not self.dead and time.time() - self.attackTimer >= 0.5:
+            self.attackTimer = time.time()
             return self.damage
+        return 0
+    def under_attack(self, damage):
+        self.dead = True
 
 class FinishLine:
     def __init__(self, player, x):
@@ -153,7 +167,11 @@ while True:
             if (sprite.x + sprite.img.get_width() > 0 or sprite.x < 1360) and not sprite.dead: #If image is inside of this box
                 canvas.blit(sprite.img, (sprite.x, sprite.y))
             sprite.move()
-            if pygame.Rect(200, player.y, playerimg.get_width(), playerimg.get_height()).colliderect(pygame.Rect(sprite.x, sprite.y, sprite.img.get_width(), sprite.img.get_height())): #If player collides with the sprite
+            playerRect = pygame.Rect(200, player.y, 200, 200)
+            spriteRect = pygame.Rect(sprite.x, sprite.y, sprite.img.get_width(), sprite.img.get_height())
+            if sprite.needs_hit and playerRect.colliderect(spriteRect):
+                player.health -= sprite.attack()
+            elif not sprite.needs_hit and 400 > sprite.x and 400 < sprite.x + sprite.img.get_width(): #If the x is in enemy's range
                 player.health -= sprite.attack()
         if player.health <= 0:
             scene = 3
@@ -179,6 +197,8 @@ while True:
                     player.jump()
                 if seq[seqindex] == "d":
                     player.duck()
+                if seq[seqindex] == "a":
+                    player.attack()
                 seqindex += 1
                 if seqindex >= len(seq):
                     seqindex = 0
