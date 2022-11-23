@@ -131,6 +131,7 @@ while True:
 
                 else: #Adds a sprite to sprite list
                     lvlsprites.append(spritedict[sprite[0]](player, *sprite[1:]))
+
             scene = 2
     if scene == 2:
         canvas.blit(playerimg, (200, player.y))
@@ -140,11 +141,12 @@ while True:
 
         for i in range(len(seq)):
             if i == seqindex:
-                canvas.blit(highseqdict[seq[i]], (i * 100, 0))
+                canvas.blit(highseqdict[seq[i]], (i * 110 + 20, 20))
             else:
-                canvas.blit(seqdict[seq[i]], (i * 100, 0))
+                canvas.blit(seqdict[seq[i]], (i * 110 + 20, 20))
+
         text = font.render("Health: " + str(player.health), True, (0, 0, 0), None)
-        canvas.blit(text, (0, 100))
+        canvas.blit(text, (20, 140))
 
         for sprite in lvlsprites:
             if (sprite.x + sprite.img.get_width() > 0 or sprite.x < 1360) and not sprite.dead: #If image is inside of this box
