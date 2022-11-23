@@ -12,6 +12,9 @@ finishimg = pygame.image.load("Finish.png")
 upimg = pygame.image.load("Up.png")
 downimg = pygame.image.load("Down.png")
 attackimg = pygame.image.load("Sword.png")
+highupimg = pygame.image.load("HighUp.png")
+highdownimg = pygame.image.load("HighDown.png")
+highattackimg = pygame.image.load("HighSword.png")
 YouLose = pygame.image.load("YouLose.png")
 YouWin = pygame.image.load("YouWin.png")
 notes = pygame.image.load("Notes.png")
@@ -107,7 +110,7 @@ down = False #If space key is right now held down
 scene = 0 #Scene ID
 level = 1
 world = 1
-maxlevelworld = [1, 1]
+maxlevelworld = [10, 1]
 absolutelevelworld = [10, 1]
 lvlsprites = []
 player = Player()
@@ -115,6 +118,7 @@ finaldistance = FinishLine(player, 0)
 seq = ["j"] #Key: j=jump, d=duck, a=attack, POSSIBLY, g=grab, u=use
 seqindex = 0
 seqdict = {"j":upimg, "d":downimg, "a":attackimg}
+highseqdict = {"j": highupimg, "d":highdownimg, "a":highattackimg}
 font = pygame.font.Font("freesansbold.ttf", 100)
 clock = pygame.time.Clock()
 leveltimer = time.time()
@@ -174,7 +178,10 @@ while True:
         canvas.blit(finishimg, (finaldistance.x, 0))
         finaldistance.move()
         for i in range(len(seq)):
-            canvas.blit(seqdict[seq[i]], (i * 100, 0))
+            if i == seqindex:
+                canvas.blit(highseqdict[seq[i]], (i * 100, 0))
+            else:
+                canvas.blit(seqdict[seq[i]], (i * 100, 0))
         text = font.render("Health: " + str(player.health), True, (0, 0, 0), None)
         canvas.blit(text, (0, 100))
         for sprite in lvlsprites:
@@ -216,7 +223,6 @@ while True:
             elif scene == 1:
                 level += 1
                 if level > maxlevelworld[0] and world == maxlevelworld[1]:
-                    print ("yup")
                     level = 1
                     world = 1
                 leveltimer = time.time()
