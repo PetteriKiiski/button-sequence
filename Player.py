@@ -37,7 +37,6 @@ class Player:
         self.ducktimer = time.time()
 
     def attack(self):
-        print (self.lvlsprites)
         attacked = False
         for sprite in self.lvlsprites:
             if sprite.attackable and 600 > sprite.x and not sprite.dead: #Ensuring enemy should get attacked

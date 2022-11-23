@@ -10,7 +10,7 @@ from FinishLine import FinishLine
 
 pygame.init()
 canvas = pygame.display.set_mode((1360, 660))
-pygame.display.set_caption("assets/images/Button Sequence")
+pygame.display.set_caption("Button Sequence")
 main = pygame.image.load("assets/images/Homescreen.png")
 playerimg = pygame.image.load("assets/images/Player.png")
 finishimg = pygame.image.load("assets/images/Finish.png")
