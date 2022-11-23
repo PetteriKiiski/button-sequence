@@ -2,7 +2,8 @@
 
 Game submission for the [2022 1 Button Game Jam](https://itch.io/jam/1-button-jam-2022)!
 
-Credits:
+### Credits:
+
 Petteri Kiiski:
 - Lead programmer
 - Game designer
