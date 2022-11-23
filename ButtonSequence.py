@@ -1,13 +1,18 @@
 #Setup
+
 import pygame, sys, time
 from pygame.locals import *
+
+from Player import Player
+from Pebble import Pebble
+from Enemy import Enemy
+from FinishLine import FinishLine
+
 pygame.init()
 canvas = pygame.display.set_mode((1360, 660))
 pygame.display.set_caption("Button Sequence")
 main = pygame.image.load("assets/images/Homescreen.png")
 playerimg = pygame.image.load("assets/images/Player.png")
-stoneimg = pygame.image.load("assets/images/Stone.png")
-enemyimg = pygame.image.load("assets/images/Enemy.png")
 finishimg = pygame.image.load("assets/images/Finish.png")
 upimg = pygame.image.load("assets/images/Up.png")
 downimg = pygame.image.load("assets/images/Down.png")
@@ -18,92 +23,6 @@ highattackimg = pygame.image.load("assets/images/HighSword.png")
 YouLose = pygame.image.load("assets/images/YouLose.png")
 YouWin = pygame.image.load("assets/images/YouWin.png")
 notes = pygame.image.load("assets/images/Notes.png")
-#Classes
-class Player:
-    def __init__(self, vel=1, health=10):
-        self.vel = int(vel)
-        self.health=int(health)
-        self.y = 460
-        self.timing = 3
-        self.dieing = False
-        self.jumping = False
-        self.ducking = False
-        self.contact = False
-        self.dietimer = time.time()
-        self.jumptimer = time.time()
-    def move(self):
-        if self.jumping:
-            self.y = 260
-            if time.time() - self.jumptimer >= self.timing:
-                self.jumping = False
-        elif self.ducking:
-            self.y = 560
-            if time.time() - self.ducktimer >= self.timing:
-                self.ducking = False
-        else:
-            self.y = 460
-    def jump(self):
-        self.jumping = True
-        self.ducking = False
-        self.jumptimer = time.time()
-
-    def duck(self):
-        self.ducking = True
-        self.jumping = False
-        self.ducktimer = time.time()
-    def attack(self):
-        attacked = False
-        for sprite in lvlsprites:
-            if sprite.attackable and 600 > sprite.x and not sprite.dead: #Ensuring enemy should get attacked
-                sprite.under_attack(1)
-                break
-
-class Pebble:
-    def __init__(self, player, x):
-        self.vel = player.vel
-        self.x = int(x)
-        self.y = 560
-        self.img = stoneimg
-        self.dead = False
-        self.damage = 1
-        self.needs_hit = True
-        self.attackable = False
-    def move(self):
-        self.x -= self.vel
-    def attack(self):
-        if self.damage == 1:
-            self.damage = 0
-            return 1
-        return 0
-
-class Enemy:
-    def __init__(self, player, vel, x): #May add Attack Speed and Attack Strength
-        self.vel = int(vel)
-        self.x = int(x)
-        self.y = 460
-        self.img = enemyimg
-        self.dead = False
-        self.damage = 1
-        self.attackTimer = time.time()
-        self.needs_hit = False
-        self.attackable = True
-    def move(self):
-        self.x -= self.vel
-    def attack(self):
-        self.vel = 0
-        if not self.dead and time.time() - self.attackTimer >= 0.5:
-            self.attackTimer = time.time()
-            return self.damage
-        return 0
-    def under_attack(self, damage):
-        self.dead = True
-
-class FinishLine:
-    def __init__(self, player, x):
-        self.vel = player.vel
-        self.x = x
-    def move(self):
-        self.x -= self.vel
 
 #Variables
 down = False #If space key is right now held down
@@ -113,7 +32,7 @@ world = 1
 maxlevelworld = [10, 1]
 absolutelevelworld = [10, 1]
 lvlsprites = []
-player = Player()
+player = Player(lvlsprites)
 finaldistance = FinishLine(player, 0)
 seq = ["j"] #Key: j=jump, d=duck, a=attack, POSSIBLY, g=grab, u=use
 seqindex = 0
@@ -122,6 +41,23 @@ highseqdict = {"j": highupimg, "d":highdownimg, "a":highattackimg}
 font = pygame.font.Font("freesansbold.ttf", 100)
 clock = pygame.time.Clock()
 leveltimer = time.time()
+
+def paintMap(level):
+    startX = 0
+    startY = 0
+
+    intX = 180
+    intY = 160
+
+    for x in range(0, 10):
+        levelimg = pygame.image.load("assets/images/Level.png")
+       
+        if level == x+1:
+             levelimg = pygame.image.load("assets/images/LevelPick.png")
+
+        canvas.blit(levelimg, ((startX + intX * (x%5)),
+                                     startY + ((int(x/5)) * intY)))
+
 #MainLoop
 while True:
     timer = time.time()
@@ -131,18 +67,17 @@ while True:
     if scene == 0.5:
         canvas.blit(notes, (0, 0))
     if scene == 1:
-        levelimg = pygame.image.load("assets/images/LevelTemplate" + str(level) + ".png")
-        canvas.blit(levelimg, (0, 0))
+        paintMap(level)
         text = font.render("World " + str(world), True, (0, 0, 0), None)
         canvas.blit(text, (0, 0))
         text = font.render("Press space to next level", True, (0, 0, 0), None)
         canvas.blit(text, (0, 250))
         text = font.render("or wait to start", True, (0, 0, 0), None)
         canvas.blit(text, (0,350))
-        if time.time() - leveltimer >= 3:
+        if time.time() - leveltimer >= 1.5:
             level += (world - 1) * 10
             lvlsprites = []
-            player = Player()
+            player = Player(lvlsprites)
             finaldistance = FinishLine(player, 0)
             seq = ["j"] #Key: j=jump, d=duck, a=attack, POSSIBLY, g=grab, u=use
             seqindex = 0
@@ -161,7 +96,7 @@ while True:
                 sprite = info.split(":")
                 if sprite[0] == "Player":
                     #Player Sprite
-                    player = Player(*sprite[1:])
+                   player = Player(lvlsprites, *sprite[1:])
                 elif sprite[0] == "Sequence":
                     #Space Sequence
                     seq = sprite[1:]
