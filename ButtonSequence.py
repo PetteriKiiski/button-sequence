@@ -25,55 +25,81 @@ YouWin = pygame.image.load("assets/images/YouWin.png")
 notes = pygame.image.load("assets/images/Notes.png")
 
 #Variables
-down = False #If space key is right now held down
-scene = 0 #Scene ID
+
+#If space key is down
+down = False 
+
+#Scene ID
+scene = 0
 level = 1
 world = 1
 maxlevelworld = [10, 1]
 absolutelevelworld = [10, 1]
+
+#Sprites array
 lvlsprites = []
 player = Player(lvlsprites)
+
+#Finsih line
 finaldistance = FinishLine(player, 0)
-seq = ["j"] #Key: j=jump, d=duck, a=attack, POSSIBLY, g=grab, u=use
+
+#Sequence: j=jump, d=duck, a=attack, POSSIBLY, g=grab, u=use
+seq = ["j"]
+
 seqindex = 0
 seqdict = {"j":upimg, "d":downimg, "a":attackimg}
 highseqdict = {"j": highupimg, "d":highdownimg, "a":highattackimg}
-font = pygame.font.Font("freesansbold.ttf", 100)
+font = pygame.font.Font("freesansbold.ttf", 80)
 clock = pygame.time.Clock()
 leveltimer = time.time()
 
 def paintMap(level):
+    #start coords
     startX = 0
     startY = 0
 
+    #interval to paint square
     intX = 180
     intY = 160
 
+    #paints 5 by 2 map
     for x in range(0, 10):
         levelimg = pygame.image.load("assets/images/Level.png")
        
+        #level is picked
         if level == x+1:
              levelimg = pygame.image.load("assets/images/LevelPick.png")
 
         canvas.blit(levelimg, ((startX + intX * (x%5)),
                                      startY + ((int(x/5)) * intY)))
 
-#MainLoop
+#Main Loop
 while True:
     timer = time.time()
     canvas.fill((255, 255, 255))
-    if scene == 0: #Mainscreen
+    
+    #Main screen
+    if scene == 0:
         canvas.blit(main, (0, 0))
+    
+    #Notes screen
     if scene == 0.5:
         canvas.blit(notes, (0, 0))
+    
+    #Map screen
     if scene == 1:
+        #Paint maps
         paintMap(level)
+        
         text = font.render("World " + str(world), True, (0, 0, 0), None)
         canvas.blit(text, (0, 0))
-        text = font.render("Press space to next level", True, (0, 0, 0), None)
+        
+        text = font.render("Press space to choose level,", True, (0, 0, 0), None)
         canvas.blit(text, (0, 250))
-        text = font.render("or wait to start", True, (0, 0, 0), None)
+        
+        text = font.render("then wait 2 seconds to start", True, (0, 0, 0), None)
         canvas.blit(text, (0,350))
+
         if time.time() - leveltimer >= 1.5:
             level += (world - 1) * 10
             lvlsprites = []
