@@ -49,9 +49,11 @@ class Player:
         self.jumping = False
         self.ducktimer = time.time()
     def attack(self):
+        attacked = False
         for sprite in lvlsprites:
-            if sprite.attackable and((600 > sprite.x and 600 < sprite.x + sprite.img.get_width()) or (500 > sprite.x and 500 < sprite.img.get_width())): #Ensuring enemy should get attacked
+            if sprite.attackable and 600 > sprite.x and not sprite.dead: #Ensuring enemy should get attacked
                 sprite.under_attack(1)
+                break
 
 class Pebble:
     def __init__(self, player, x):
@@ -106,7 +108,7 @@ scene = 0 #Scene ID
 level = 1
 world = 1
 maxlevelworld = [1, 1]
-absolutelevelworld = [1, 1]
+absolutelevelworld = [10, 1]
 lvlsprites = []
 player = Player()
 finaldistance = FinishLine(player, 0)
@@ -134,7 +136,7 @@ while True:
         text = font.render("or wait to start", True, (0, 0, 0), None)
         canvas.blit(text, (0,350))
         if time.time() - leveltimer >= 3:
-            level = 1
+            level += (world - 1) * 10
             lvlsprites = []
             player = Player()
             finaldistance = FinishLine(player, 0)
@@ -189,6 +191,12 @@ while True:
             scene = 3
         if 200 >= finaldistance.x:
             scene = 4
+            if maxlevelworld != absolutelevelworld and level == maxlevelworld[0] and world == maxlevelworld[1]:
+                if maxlevelworld[0] == 10:
+                    maxlevelworld[0] = 1
+                    maxlevelworld[1] += 1
+                else:
+                    maxlevelworld[0] += 1
     if scene == 3:
         canvas.blit(YouLose, (0, 0))
     if scene == 4:
@@ -207,8 +215,10 @@ while True:
                 leveltimer = time.time()
             elif scene == 1:
                 level += 1
-                if level > maxlevelworld[0]:
+                if level > maxlevelworld[0] and world == maxlevelworld[1]:
+                    print ("yup")
                     level = 1
+                    world = 1
                 leveltimer = time.time()
             elif scene == 2:
                 if seq[seqindex] == "j":
