@@ -1,7 +1,7 @@
 import pygame, time
 
 class Enemy:
-    def __init__(self, player, vel, x): #May add Attack Speed and Attack Strength
+    def __init__(self, player, vel, x):
         self.vel = int(vel)
         self.x = int(x)
         self.y = 460
