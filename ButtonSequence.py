@@ -3,21 +3,21 @@ import pygame, sys, time
 from pygame.locals import *
 pygame.init()
 canvas = pygame.display.set_mode((1360, 660))
-pygame.display.set_caption("Button Sequence")
-main = pygame.image.load("Homescreen.png")
-playerimg = pygame.image.load("Player.png")
-stoneimg = pygame.image.load("Stone.png")
-enemyimg = pygame.image.load("Enemy.png")
-finishimg = pygame.image.load("Finish.png")
-upimg = pygame.image.load("Up.png")
-downimg = pygame.image.load("Down.png")
-attackimg = pygame.image.load("Sword.png")
-highupimg = pygame.image.load("HighUp.png")
-highdownimg = pygame.image.load("HighDown.png")
-highattackimg = pygame.image.load("HighSword.png")
-YouLose = pygame.image.load("YouLose.png")
-YouWin = pygame.image.load("YouWin.png")
-notes = pygame.image.load("Notes.png")
+pygame.display.set_caption("assets/images/Button Sequence")
+main = pygame.image.load("assets/images/Homescreen.png")
+playerimg = pygame.image.load("assets/images/Player.png")
+stoneimg = pygame.image.load("assets/images/Stone.png")
+enemyimg = pygame.image.load("assets/images/Enemy.png")
+finishimg = pygame.image.load("assets/images/Finish.png")
+upimg = pygame.image.load("assets/images/Up.png")
+downimg = pygame.image.load("assets/images/Down.png")
+attackimg = pygame.image.load("assets/images/Sword.png")
+highupimg = pygame.image.load("assets/images/HighUp.png")
+highdownimg = pygame.image.load("assets/images/HighDown.png")
+highattackimg = pygame.image.load("assets/images/HighSword.png")
+YouLose = pygame.image.load("assets/images/YouLose.png")
+YouWin = pygame.image.load("assets/images/YouWin.png")
+notes = pygame.image.load("assets/images/Notes.png")
 #Classes
 class Player:
     def __init__(self, vel=1, health=10):
@@ -131,7 +131,7 @@ while True:
     if scene == 0.5:
         canvas.blit(notes, (0, 0))
     if scene == 1:
-        levelimg = pygame.image.load("LevelTemplate" + str(level) + ".png")
+        levelimg = pygame.image.load("assets/images/LevelTemplate" + str(level) + ".png")
         canvas.blit(levelimg, (0, 0))
         text = font.render("World " + str(world), True, (0, 0, 0), None)
         canvas.blit(text, (0, 0))
@@ -149,7 +149,7 @@ while True:
             seqdict = {"j":upimg, "d":downimg, "a":attackimg}
             font = pygame.font.Font("freesansbold.ttf", 100)
             try:
-                with open("level" + str(level) + ".lvl", "r") as info:
+                with open("assets/level" + str(level) + ".lvl", "r") as info:
                     txt = info.read()
             except Exception as err:
                 print ("ERROR: " + str(err))
