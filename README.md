@@ -1,25 +1,38 @@
 # Button Sequence
 
-![alt-text](https://github.com/PetteriKiiski/ButtonSequence/tree/master/assets/cover.png)
+![alt-text](https://github.com/PetteriKiiski/ButtonSequence/blob/master/assets/cover.png)
 
-Game submission for the [2022 1-Button Game Jam](https://itch.io/jam/1-button-jam-2022)!
+### Game submission for the [2022 1-Button Game Jam](https://itch.io/jam/1-button-jam-2022)!
 
-While utilizing only *the space key* to loop through a sequence of moves, avoid losing health by hitting rocks, 
-being attacked by monsters, and hitting birds
+## Gameplay
 
-### Setup:
+Loop through a sequence of moves utilizing only the space key. 
+Strategize to avoid losing health and dying. Dangers include pebbles, monsters, and fish birds
 
-This game has been made with python3 and pygame, install both on your computer before continuing
+## Setup:
 
-Linux installation:
-sudo apt install python3
-sudo apt install python3-pygame
+1. This game has been made with python3 and pygame, install both on your computer before continuing
 
-Windows installation:
-Download python [here](https://www.python.org/downloads/)
-Download pygame [here](https://www.pygame.org/download.shtml)
+- Linux dependencies installation:
 
-### Credits:
+  - sudo apt install python3
+
+  - sudo apt install python3-pygame
+
+- Windows dependencies installation:
+
+  - Download python [here](https://www.python.org/downloads/)
+
+  - Download pygame [here](https://www.pygame.org/download.shtml)
+
+2. Clone or download this repository
+3. Open the directory with your terminal and enter the following to play: ***python3 ButtonSequence.py***
+
+You can also add an optional number parameter to slow or speed up the game (greater than 1): ***python3 ButtonSequence.py 3***
+
+***NOTE!*** Some speeds may slow or speed up the game too much to an extent where the game is unplayable. Use the default (2) to be safe
+
+## Game Credits:
 
 Petteri Kiiski:
 - Game designer
