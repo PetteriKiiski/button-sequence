@@ -32,7 +32,21 @@ down = False
 scene = 0
 level = 1
 world = 1
-maxlevelworld = [10, 3]
+try:
+    with open("progress.txt", "r") as fh:
+        txt = fh.read()
+except Exception as err:
+    print (err)
+if txt == "":
+    try:
+        with open("progress.txt", "w") as fh:
+            fh.write("1\n1")
+    except Exception as err:
+        print (err)
+    maxlevelworld = [1, 1]
+else:
+    prelist = txt.split("\n")
+    maxlevelworld = [int(prelist[0]), int(prelist[1])]
 absolutelevelworld = [10, 2]
 
 #Sprites array
@@ -186,6 +200,11 @@ while True:
 
                 else:
                     maxlevelworld[0] += 1
+            try:
+                with open("progress.txt", "w") as fh:
+                    fh.write(str(maxlevelworld[0]) + "\n" + str(maxlevelworld[1]))
+            except Exception as err:
+                print (err)
     if scene == 3:
         canvas.blit(YouLose, (0, 0))
 
