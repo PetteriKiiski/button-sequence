@@ -12,8 +12,6 @@ pygame.init()
 canvas = pygame.display.set_mode((1360, 660))
 pygame.display.set_caption("Button Sequence")
 main = pygame.image.load("assets/images/Homescreen.png")
-playerimg = pygame.image.load("assets/images/Player.png")
-finishimg = pygame.image.load("assets/images/Finish.png")
 upimg = pygame.image.load("assets/images/Up.png")
 downimg = pygame.image.load("assets/images/Down.png")
 attackimg = pygame.image.load("assets/images/Sword.png")
@@ -23,8 +21,6 @@ highattackimg = pygame.image.load("assets/images/HighSword.png")
 YouLose = pygame.image.load("assets/images/YouLose.png")
 YouWin = pygame.image.load("assets/images/YouWin.png")
 notes = pygame.image.load("assets/images/Notes.png")
-
-#Variables
 
 #If space key is down
 down = False 
@@ -133,10 +129,11 @@ while True:
                     lvlsprites.append(spritedict[sprite[0]](player, *sprite[1:]))
 
             scene = 2
+            
     if scene == 2:
-        canvas.blit(playerimg, (200, player.y))
+        canvas.blit(player.img, (200, player.y))
         player.move()
-        canvas.blit(finishimg, (finaldistance.x, 0))
+        canvas.blit(finaldistance.img, (finaldistance.x, 0))
         finaldistance.move()
 
         for i in range(len(seq)):
