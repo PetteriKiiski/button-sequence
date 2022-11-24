@@ -14,6 +14,7 @@ pygame.init()
 canvas = pygame.display.set_mode((1360, 760))
 pygame.display.set_caption("Button Sequence")
 
+#Images
 main = pygame.image.load("assets/images/Homescreen.png").convert_alpha()
 upimg = pygame.image.load("assets/images/Up.png").convert_alpha()
 downimg = pygame.image.load("assets/images/Down.png").convert_alpha()
@@ -132,7 +133,7 @@ while True:
             seqdict = {"j":upimg, "d":downimg, "a":attackimg}
 
             try:
-                with open("assets/level" + str(level) + ".lvl", "r") as info:
+                with open("assets/levels/level" + str(level) + ".lvl", "r") as info:
                     txt = info.read()
             except Exception as err:
                 print ("ERROR: " + str(err))

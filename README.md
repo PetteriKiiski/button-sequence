@@ -9,7 +9,7 @@ being attacked by monsters, and hitting birds
 
 ### Setup:
 
-This game has been made with python3 and pygame, please install both to play the game
+This game has been made with python3 and pygame, install both on your computer before continuing
 
 Linux installation:
 sudo apt install python3
@@ -22,7 +22,7 @@ Download pygame [here](https://www.pygame.org/download.shtml)
 ### Credits:
 
 Petteri Kiiski:
-- Game designed
+- Game designer
 - Lead programmer
 
 Lilja Kiiski: 
