@@ -2,8 +2,8 @@ import pygame
 from Sprite import Sprite
 
 class Bird(Sprite):
-    def __init__(self, player, vel, x):
-        self.vel = int(vel)
+    def __init__(self, player, speed_multiplier, vel, x):
+        self.vel = int(vel) * speed_multiplier
         self.playervel = player.vel
         self.yvel = 0
         self.x = int(x)
