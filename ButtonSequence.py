@@ -69,7 +69,7 @@ def paintMap(level, startX, startY):
        
         #level is picked
         if level == x+1:
-             levelimg = pygame.image.load("assets/images/LevelPick.png")
+             levelimg = pygame.image.load("assets/images/Level" + str(x+1) + ".png")
 
         canvas.blit(levelimg, ((startX + intX * (x%5)),
                                      startY + ((int(x/5)) * intY)))
@@ -79,6 +79,11 @@ while True:
     timer = time.time()
     canvas.fill((255, 255, 255))
     
+    background.move(4)
+    canvas.blit(background.img, (background.x1, 0))
+    canvas.blit(background.img, (background.x2, 0))
+    canvas.blit(background.grnd, (0, 660))
+
     #Main screen
     if scene == 0:
         canvas.blit(main, (0, 0))
@@ -139,11 +144,6 @@ while True:
             
     #Game screen        
     if scene == 2:
-        background.move(4)
-        canvas.blit(background.img, (background.x1, 0))
-        canvas.blit(background.img, (background.x2, 0))
-        canvas.blit(background.grnd, (0, 660))
-
         canvas.blit(player.img, (200, player.y))
         player.move()
         canvas.blit(finaldistance.img, (finaldistance.x, 0))
