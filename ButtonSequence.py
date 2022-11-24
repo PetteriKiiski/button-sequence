@@ -29,8 +29,8 @@ down = False
 scene = 0
 level = 1
 world = 1
-maxlevelworld = [1, 1]
-absolutelevelworld = [10, 1]
+maxlevelworld = [10, 2]
+absolutelevelworld = [10, 2]
 
 #Sprites array
 lvlsprites = []
@@ -127,7 +127,7 @@ while True:
 
                 else: #Adds a sprite to sprite list
                     lvlsprites.append(spritedict[sprite[0]](player, *sprite[1:]))
-
+            level -= (world - 1) * 10
             scene = 2
             
     if scene == 2:
@@ -198,6 +198,9 @@ while True:
                 if level > maxlevelworld[0] and world == maxlevelworld[1]:
                     level = 1
                     world = 1
+                elif level > 10:
+                    world += 1
+                    level = 1
                 leveltimer = time.time()
 
             elif scene == 2:
