@@ -1,4 +1,4 @@
-# Button Sequence
+# button-sequence
 
 ![alt-text](https://github.com/PetteriKiiski/ButtonSequence/blob/master/assets/cover.png)
 
