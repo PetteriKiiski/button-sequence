@@ -8,10 +8,12 @@ from Pebble import Pebble
 from Enemy import Enemy
 from FinishLine import FinishLine
 from Bird import Bird
+from Background import Background
 
 pygame.init()
-canvas = pygame.display.set_mode((1360, 660))
+canvas = pygame.display.set_mode((1360, 760))
 pygame.display.set_caption("Button Sequence")
+
 main = pygame.image.load("assets/images/Homescreen.png")
 upimg = pygame.image.load("assets/images/Up.png")
 downimg = pygame.image.load("assets/images/Down.png")
@@ -36,6 +38,9 @@ absolutelevelworld = [10, 2]
 #Sprites array
 lvlsprites = []
 player = Player(lvlsprites)
+
+#Background
+background = Background("assets/images/bg1.png", "assets/images/ground1.png")
 
 #Finsih line
 finaldistance = FinishLine(player, 0)
@@ -132,7 +137,13 @@ while True:
             level -= (world - 1) * 10
             scene = 2
             
+    #Game screen        
     if scene == 2:
+        background.move(5)
+        canvas.blit(background.img, (background.x1, 0))
+        canvas.blit(background.img, (background.x2, 0))
+        canvas.blit(background.grnd, (0, 660))
+
         canvas.blit(player.img, (200, player.y))
         player.move()
         canvas.blit(finaldistance.img, (finaldistance.x, 0))
