@@ -1,5 +1,3 @@
-#Setup
-
 import pygame, sys, time
 from pygame.locals import *
 
@@ -39,18 +37,24 @@ if len(sys.argv) >= 2:
 try:
     with open("progress.txt", "r") as fh:
         txt = fh.read()
+
 except Exception as err:
     print (err)
+
 if txt == "":
     try:
         with open("progress.txt", "w") as fh:
             fh.write("1\n1")
+
     except Exception as err:
         print (err)
+
     maxlevelworld = [1, 1]
+
 else:
     prelist = txt.split("\n")
     maxlevelworld = [int(prelist[0]), int(prelist[1])]
+    
 absolutelevelworld = [10, 2]
 
 #Sprites array
@@ -208,9 +212,12 @@ while True:
                     fh.write(str(maxlevelworld[0]) + "\n" + str(maxlevelworld[1]))
             except Exception as err:
                 print (err)
+                
+    #Lose screen
     if scene == 3:
         canvas.blit(YouLose, (0, 0))
 
+    #Win screen
     if scene == 4:
         canvas.blit(YouWin, (0, 0))
 
@@ -234,6 +241,7 @@ while True:
                 if level > maxlevelworld[0] and world == maxlevelworld[1]:
                     level = 1
                     world = 1
+                    
                 elif level > 10:
                     world += 1
                     level = 1
