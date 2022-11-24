@@ -50,7 +50,7 @@ if txt == "":
 else:
     prelist = txt.split("\n")
     maxlevelworld = [int(prelist[0]), int(prelist[1])]
-absolutelevelworld = [10, 2]
+absolutelevelworld = [10, 3]
 
 #Sprites array
 lvlsprites = []
