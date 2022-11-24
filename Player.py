@@ -6,7 +6,7 @@ class Player:
         self.vel = int(vel)
         self.health=int(health)
         self.y = 460
-        self.timing = 3
+        self.timing = 2
         self.dieing = False
         self.jumping = False
         self.ducking = False

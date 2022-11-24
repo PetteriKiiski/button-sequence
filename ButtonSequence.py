@@ -137,7 +137,7 @@ while True:
             
     #Game screen        
     if scene == 2:
-        background.move(5)
+        background.move(3)
         canvas.blit(background.img, (background.x1, 0))
         canvas.blit(background.img, (background.x2, 0))
         canvas.blit(background.grnd, (0, 660))
