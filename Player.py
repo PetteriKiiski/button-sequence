@@ -3,7 +3,7 @@ import pygame, time
 class Player:
     def __init__(self, lvlsprites, vel=1, health=10):
         self.lvlsprites = lvlsprites
-        self.vel = int(vel)
+        self.vel = int(vel) * 2
         self.health=int(health)
         self.y = 460
         self.timing = 3
@@ -13,17 +13,17 @@ class Player:
         self.contact = False
         self.dietimer = time.time()
         self.jumptimer = time.time()
-        self.img = pygame.image.load("assets/images/Player.png")
+        self.img = pygame.image.load("assets/images/Player.png").convert_alpha()
 
     def move(self):
-        self.img = pygame.image.load("assets/images/Player.png")
+        self.img = pygame.image.load("assets/images/Player.png").convert_alpha()
         if self.jumping:
             self.y = 260
             if time.time() - self.jumptimer >= self.timing:
                 self.jumping = False
         elif self.ducking:
             self.y = 560
-            self.img = pygame.image.load("assets/images/PlayerSquish.png")
+            self.img = pygame.image.load("assets/images/PlayerSquish.png").convert_alpha()
             if time.time() - self.ducktimer >= self.timing:
                 self.ducking = False
         else:

@@ -1,3 +1,3 @@
 #!/bin/sh
 
-python3 ButtonSequence.py
+python3 ButtonSequence.py $1

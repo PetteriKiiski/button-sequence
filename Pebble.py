@@ -6,7 +6,7 @@ class Pebble(Sprite):
         self.vel = player.vel
         self.x = int(x)
         self.y = 560
-        self.img = pygame.image.load("assets/images/Stone.png")
+        self.img = pygame.image.load("assets/images/Stone.png").convert_alpha()
         self.dead = False
         self.damage = 1
         self.needs_hit = True
