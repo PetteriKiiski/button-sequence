@@ -7,6 +7,7 @@ from Player import Player
 from Pebble import Pebble
 from Enemy import Enemy
 from FinishLine import FinishLine
+from Bird import Bird
 from Background import Background
 
 pygame.init()
@@ -31,7 +32,7 @@ down = False
 scene = 0
 level = 1
 world = 1
-maxlevelworld = [10, 2]
+maxlevelworld = [10, 3]
 absolutelevelworld = [10, 2]
 
 #Sprites array
@@ -119,7 +120,7 @@ while True:
             for info in lvlinfo:
                 if info == "":
                     continue
-                spritedict = {"Enemy":Enemy, "Pebble":Pebble}
+                spritedict = {"Enemy":Enemy, "Pebble":Pebble, "Bird":Bird}
                 sprite = info.split(":")
                 if sprite[0] == "Player":
                    player = Player(lvlsprites, *sprite[1:])
@@ -129,6 +130,7 @@ while True:
 
                 elif sprite[0] == "Distance":
                     finaldistance = FinishLine(player, int(sprite[1]))
+
 
                 else: #Adds a sprite to sprite list
                     lvlsprites.append(spritedict[sprite[0]](player, *sprite[1:]))
@@ -166,6 +168,7 @@ while True:
 
             if sprite.needs_hit and playerRect.colliderect(spriteRect):
                 player.health -= sprite.attack()
+                sprite.impact()
 
             elif not sprite.needs_hit and 400 > sprite.x and 400 < sprite.x + sprite.img.get_width(): #If the x is in enemy's range
                 player.health -= sprite.attack()

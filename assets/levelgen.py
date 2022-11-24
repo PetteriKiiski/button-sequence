@@ -15,7 +15,7 @@ for x in range(len(seq)):
         addtext += seq[x] + ":"
 text += addtext + "\nDistance:10000\n"
 dist = 600
-choices = ["Pebble:", "Enemy:4:", "2Peb"]
+choices = ["Pebble:", "Enemy:4:", "2Peb", "Bird:4:"]
 while True:
     sprite = random.choice(choices)
     if sprite == "2Peb":
@@ -28,6 +28,7 @@ while True:
         break
     dist += 600
 print (text)
+input("Are you sure? press enter for this file name: " + sys.argv[1])
 try:
     with open(sys.argv[1], "w") as fh:
         fh.write(text)

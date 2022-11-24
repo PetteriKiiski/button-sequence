@@ -1,6 +1,6 @@
 import pygame, time
-
-class Enemy:
+from Sprite import Sprite
+class Enemy(Sprite):
     def __init__(self, player, vel, x):
         self.vel = int(vel)
         self.x = int(x)
