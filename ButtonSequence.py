@@ -91,7 +91,6 @@ def paintMap(level, startX, startY):
 #Main Loop
 while True:
     timer = time.time()
-    canvas.fill((255, 255, 255))
     
     background.move(4)
     canvas.blit(background.img, (background.x1, 0))
@@ -262,5 +261,5 @@ while True:
         elif event.type == KEYUP and event.key == K_SPACE:
             down = False
 
-    clock.tick(60)
+    clock.tick(30)
     pygame.display.update()
