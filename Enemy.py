@@ -1,8 +1,8 @@
 import pygame, time
 from Sprite import Sprite
 class Enemy(Sprite):
-    def __init__(self, player, vel, x):
-        self.vel = int(vel) * 2
+    def __init__(self, speed_multiplier, player, vel, x):
+        self.vel = int(vel) * 2 * speed_multiplier
         self.x = int(x)
         self.y = 460
         self.img = pygame.image.load("assets/images/Enemy.png").convert_alpha()

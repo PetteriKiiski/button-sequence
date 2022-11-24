@@ -32,6 +32,9 @@ down = False
 scene = 0
 level = 1
 world = 1
+speed_multiplier = 2
+if len(sys.argv) >= 2:
+    speed_multiplier = int(sys.argv[1])
 try:
     with open("progress.txt", "r") as fh:
         txt = fh.read()
@@ -51,13 +54,13 @@ absolutelevelworld = [10, 2]
 
 #Sprites array
 lvlsprites = []
-player = Player(lvlsprites)
+player = Player(lvlsprites, speed_multiplier)
 
 #Background
 background = Background("assets/images/bg1.png", "assets/images/ground1.png")
 
 #Finsih line
-finaldistance = FinishLine(player, 0)
+finaldistance = FinishLine(player, speed_multiplier, 0)
 
 #Sequence: j=jump, d=duck, a=attack, POSSIBLY, g=grab, u=use
 seq = ["j"]
@@ -122,8 +125,8 @@ while True:
         if time.time() - leveltimer >= TIMEWAIT:
             level += (world - 1) * 10
             lvlsprites = []
-            player = Player(lvlsprites)
-            finaldistance = FinishLine(player, 0)
+            player = Player(lvlsprites, speed_multiplier)
+            finaldistance = FinishLine(player, speed_multiplier, 0)
             seq = ["j"]
             seqindex = 0
             seqdict = {"j":upimg, "d":downimg, "a":attackimg}
@@ -141,17 +144,17 @@ while True:
                 spritedict = {"Enemy":Enemy, "Pebble":Pebble, "Bird":Bird}
                 sprite = info.split(":")
                 if sprite[0] == "Player":
-                   player = Player(lvlsprites, *sprite[1:])
+                   player = Player(lvlsprites, speed_multiplier, *sprite[1:])
 
                 elif sprite[0] == "Sequence":
                     seq = sprite[1:]
 
                 elif sprite[0] == "Distance":
-                    finaldistance = FinishLine(player, int(sprite[1]))
+                    finaldistance = FinishLine(player, speed_multiplier, int(sprite[1]))
 
 
                 else: #Adds a sprite to sprite list
-                    lvlsprites.append(spritedict[sprite[0]](player, *sprite[1:]))
+                    lvlsprites.append(spritedict[sprite[0]](speed_multiplier, player, *sprite[1:]))
             level -= (world - 1) * 10
             scene = 2
             

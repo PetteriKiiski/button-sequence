@@ -1,9 +1,9 @@
 import pygame, time
 
 class Player:
-    def __init__(self, lvlsprites, vel=1, health=10):
+    def __init__(self, lvlsprites, speed_multiplier, vel=1, health=10):
         self.lvlsprites = lvlsprites
-        self.vel = int(vel) * 2
+        self.vel = int(vel) * speed_multiplier
         self.health=int(health)
         self.y = 460
         self.timing = 3

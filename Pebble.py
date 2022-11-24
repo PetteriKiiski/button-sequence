@@ -2,8 +2,8 @@ import pygame
 from Sprite import Sprite
 
 class Pebble(Sprite):
-    def __init__(self, player, x):
-        self.vel = player.vel
+    def __init__(self, speed_multiplier, player, x):
+        self.vel = player.vel * speed_multiplier
         self.x = int(x)
         self.y = 560
         self.img = pygame.image.load("assets/images/Stone.png").convert_alpha()
