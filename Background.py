@@ -17,4 +17,3 @@ class Background:
 
         if self.x2 + self.img.get_width() <= 0:
             self.x2 = self.img.get_width()
-        
