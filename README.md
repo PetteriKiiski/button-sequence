@@ -2,14 +2,14 @@
 
 ![alt-text](https://github.com/PetteriKiiski/ButtonSequence/blob/master/assets/cover.png)
 
-### Game submission for the [2022 1-Button Game Jam](https://itch.io/jam/1-button-jam-2022)!
+### Game submission for the [2022 1-Button Game Jam](https://itch.io/jam/1-button-jam-2022), you can find the submission [here](https://petterikiiski.itch.io/button-sequence)
 
 ## Gameplay
 
 Loop through a sequence of moves utilizing only the space key. 
 Strategize to avoid losing health and dying. Dangers include pebbles, monsters, and fish birds
 
-## Setup:
+## Setup
 
 1. This game has been made with python3 and pygame, install both on your computer before continuing
 
@@ -32,7 +32,7 @@ You can also add an optional number parameter to slow or speed up the game (grea
 
 ***NOTE!*** Some speeds may slow or speed up the game too much to an extent where the game is unplayable. Use the default (2) to be safe
 
-## Game Credits:
+## Credits
 
 Petteri Kiiski:
 - Game designer
