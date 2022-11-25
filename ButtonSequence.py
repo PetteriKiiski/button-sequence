@@ -23,6 +23,7 @@ highattackimg = pygame.image.load("assets/images/HighSword.png").convert_alpha()
 YouLose = pygame.image.load("assets/images/YouLose.png").convert_alpha()
 YouWin = pygame.image.load("assets/images/YouWin.png").convert_alpha()
 notes = pygame.image.load("assets/images/Notes.png").convert_alpha()
+Congrats = pygame.image.load("assets/images/Congrats.png").convert_alpha()
 
 #If space key is down
 down = False 
@@ -49,13 +50,13 @@ if txt == "":
     except Exception as err:
         print (err)
 
-    maxlevelworld = [1, 1]
+    maxlevelworld = [10, 3]
 
 else:
     prelist = txt.split("\n")
     maxlevelworld = [int(prelist[0]), int(prelist[1])]
-    
-absolutelevelworld = [10, 2]
+
+absolutelevelworld = [10, 3]
 
 #Sprites array
 lvlsprites = []
@@ -219,7 +220,10 @@ while True:
 
     #Win screen
     if scene == 4:
-        canvas.blit(YouWin, (0, 0))
+        if level == 10 and world == 3:
+            canvas.blit(Congrats, (0, 0))
+        else:
+            canvas.blit(YouWin, (0, 0))
 
     #Event loop (Only three events, since their is one key)
     for event in pygame.event.get():
