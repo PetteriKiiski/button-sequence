@@ -1,5 +1,3 @@
-#Setup
-
 import pygame, sys, time
 from pygame.locals import *
 
@@ -14,6 +12,7 @@ pygame.init()
 canvas = pygame.display.set_mode((1360, 760))
 pygame.display.set_caption("Button Sequence")
 
+#Images
 main = pygame.image.load("assets/images/Homescreen.png").convert_alpha()
 upimg = pygame.image.load("assets/images/Up.png").convert_alpha()
 downimg = pygame.image.load("assets/images/Down.png").convert_alpha()
@@ -24,6 +23,7 @@ highattackimg = pygame.image.load("assets/images/HighSword.png").convert_alpha()
 YouLose = pygame.image.load("assets/images/YouLose.png").convert_alpha()
 YouWin = pygame.image.load("assets/images/YouWin.png").convert_alpha()
 notes = pygame.image.load("assets/images/Notes.png").convert_alpha()
+Congrats = pygame.image.load("assets/images/Congrats.png").convert_alpha()
 
 #If space key is down
 down = False 
@@ -38,18 +38,24 @@ if len(sys.argv) >= 2:
 try:
     with open("progress.txt", "r") as fh:
         txt = fh.read()
+
 except Exception as err:
     print (err)
+
 if txt == "":
     try:
         with open("progress.txt", "w") as fh:
             fh.write("1\n1")
+
     except Exception as err:
         print (err)
-    maxlevelworld = [1, 1]
+
+    maxlevelworld = [10, 3]
+
 else:
     prelist = txt.split("\n")
     maxlevelworld = [int(prelist[0]), int(prelist[1])]
+
 absolutelevelworld = [10, 3]
 
 #Sprites array
@@ -132,7 +138,7 @@ while True:
             seqdict = {"j":upimg, "d":downimg, "a":attackimg}
 
             try:
-                with open("assets/level" + str(level) + ".lvl", "r") as info:
+                with open("assets/levels/level" + str(level) + ".lvl", "r") as info:
                     txt = info.read()
             except Exception as err:
                 print ("ERROR: " + str(err))
@@ -207,11 +213,17 @@ while True:
                     fh.write(str(maxlevelworld[0]) + "\n" + str(maxlevelworld[1]))
             except Exception as err:
                 print (err)
+                
+    #Lose screen
     if scene == 3:
         canvas.blit(YouLose, (0, 0))
 
+    #Win screen
     if scene == 4:
-        canvas.blit(YouWin, (0, 0))
+        if level == 10 and world == 3:
+            canvas.blit(Congrats, (0, 0))
+        else:
+            canvas.blit(YouWin, (0, 0))
 
     #Event loop (Only three events, since their is one key)
     for event in pygame.event.get():
@@ -233,6 +245,7 @@ while True:
                 if level > maxlevelworld[0] and world == maxlevelworld[1]:
                     level = 1
                     world = 1
+                    
                 elif level > 10:
                     world += 1
                     level = 1
